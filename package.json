@@ -10,7 +10,8 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
-    "vue-date-pick": "^1.5.1"
+    "vue-date-pick": "^1.5.1",
+    "vue-grid-layout": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
