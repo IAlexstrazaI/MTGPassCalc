@@ -2,12 +2,14 @@
 
   <h1>{{ msg }}</h1>
   <div class="col">
-    <p>Сегодня: {{ Date(this.Today)  }}</p>
+    <p>Сегодня: {{ this.Today  }}</p>
     <button @click="timeupdate"> Поставить сегодняшнюю дату  </button>
     <br>
     <br>
-    <p>Дата окончания: {{ Date(this.EndDayMP) }}</p>
+    <p>Дата окончания: {{ this.EndDayMP }}</p>
     <p>Максимум lvl: {{ this.MaxLvl }}</p>
+    <br>
+    <p>Осталось дней: {{ this.DaysLeft =  Math.floor((this.EndDayMP-this.Today)/ 86400) }}</p>
     <br>
     <br>
     Current MP state
@@ -28,6 +30,9 @@
     Incomplete weekly wins:  <input @change = "SaveLocal('IncompWW',IncompWW)" v-model.number="IncompWW">
     <br>
     <br>
+    {{TotalMasteryXP =  parseInt(this.CurrentLevel) * 1000 + parseInt(this.ExcessMasteryExp) + parseInt(this.IncompDW) * 25 + parseInt(this.IncompDQ) * 500 + parseInt(this.IncompWW) * 250}}
+    <br>
+    <br>
     Expected mastery progression
     <br>
     <br>
@@ -40,40 +45,15 @@
     Weekly wins per week:  <input @change = "SaveLocal('WeeklyWinsPerWeek',WeeklyWinsPerWeek)" v-model.number="WeeklyWinsPerWeek">
   </div>
   <div class="col" ></div>
-  <div></div>
-
-  <grid-layout :layout.sync="layout"
-               :col-num="12"
-               :row-height="30"
-               :is-draggable="draggable"
-               :is-resizable="resizable"
-               :vertical-compact="true"
-               :use-css-transforms="true"
-  >
-    <grid-item v-for="item in layout"
-               :static="item.static"
-               :x="item.x"
-               :y="item.y"
-               :w="item.w"
-               :h="item.h"
-               :i="item.i"
-    >
-      <span class="text">{{itemTitle(item)}}</span>
-    </grid-item>
-  </grid-layout>
 </template>
 <script>
 
-import VueGridLayout from 'vue-grid-layout';
 window.addEventListener('beforeunload', () => {
 console.log("Loaded!")
 });
 
 export default {
-  components: {
-    GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem
-  },
+
   name: 'HelloWorld',
   props: {
     msg: String,
@@ -85,6 +65,7 @@ export default {
       Today: localStorage.getItem('Today'),
       EndDayMP: 1713240215,
       MaxLvl: 70,
+      DaysLeft: 0,
 
       /* Current MP */
       CurrentLevel: localStorage.getItem('CurrentLevel'),
@@ -92,6 +73,7 @@ export default {
       IncompDW: localStorage.getItem('IncompDW'),
       IncompDQ: localStorage.getItem('IncompDQ'),
       IncompWW: localStorage.getItem('IncompWW'),
+      TotalMasteryXP: this.CurrentLevel * 1000 + this.ExcessMasteryExp + this.IncompDW * 25 + this.IncompDQ * 500 + this.IncompWW * 250,
 
       /* Expected mastery progression */
       DWperDay: localStorage.getItem('DWperDay'),
@@ -102,7 +84,7 @@ export default {
   },
   methods:{
     timeupdate: function (){
-      localStorage.setItem('Today',Date.now())
+      localStorage.setItem('Today', Math.floor(Date.now()/1000))
       this.Today = localStorage.getItem('Today');
     },
     SaveLocal: function(key,value){
