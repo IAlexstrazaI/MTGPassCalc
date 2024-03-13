@@ -9,7 +9,7 @@
     <p>Дата окончания: {{ this.EndDayMP }}</p>
     <p>Максимум lvl: {{ this.MaxLvl }}</p>
     <br>
-    <p>Осталось дней: {{ this.DaysLeft =  Math.floor((this.EndDayMP-this.Today)/ 86400) }}</p>
+    <p>Осталось дней: {{ this.DaysLeft =  Math.floor((this.EndDayMP-this.Today)/ 86400) + 1 }}</p>
     <br>
     <br>
     Current MP state
@@ -37,6 +37,9 @@
     <br>
     <br>
     Daily wins per Day:  <input @change = "SaveLocal('DWperDay',DWperDay)" v-model.number="DWperDay">
+    <br>
+    <br>
+    Total Ddaily win XP: {{ this.DWperDay * 25 *  this.DaysLeft }}
     <br>
     <br>
     Daily quests left total:  <input @change = "SaveLocal('DQleft',DQleft)" v-model.number="DQleft">
@@ -73,7 +76,7 @@ export default {
       IncompDW: localStorage.getItem('IncompDW'),
       IncompDQ: localStorage.getItem('IncompDQ'),
       IncompWW: localStorage.getItem('IncompWW'),
-      TotalMasteryXP: this.CurrentLevel * 1000 + this.ExcessMasteryExp + this.IncompDW * 25 + this.IncompDQ * 500 + this.IncompWW * 250,
+      TotalMasteryXP: 0,
 
       /* Expected mastery progression */
       DWperDay: localStorage.getItem('DWperDay'),
