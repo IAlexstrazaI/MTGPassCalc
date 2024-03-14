@@ -10,7 +10,7 @@
     <p>Максимум lvl: {{ this.MaxLvl }}</p>
     <br>
     <p>Осталось дней: {{ this.DaysLeft =  Math.floor((this.EndDayMP-this.Today)/ 86400) + 1 }}</p>
-    <br>
+    <p> Total LVL: {{ TotalMasteryXP +  TotalWeeklyWinsExp + TotalQuestExp + TotalDailyWinsExp}} </p>
     <br>
     Current MP state
     <br>
@@ -30,7 +30,7 @@
     Incomplete weekly wins:  <input @change = "SaveLocal('IncompWW',IncompWW)" v-model.number="IncompWW">
     <br>
     <br>
-    {{TotalMasteryXP =  parseInt(this.CurrentLevel) * 1000 + parseInt(this.ExcessMasteryExp) + parseInt(this.IncompDW) * 25 + parseInt(this.IncompDQ) * 500 + parseInt(this.IncompWW) * 250}}
+    Total Mastery XP: {{ TotalMasteryXP =  parseInt(this.CurrentLevel) * 1000 + parseInt(this.ExcessMasteryExp) + parseInt(this.IncompDW) * 25 + parseInt(this.IncompDQ) * 500 + parseInt(this.IncompWW) * 250}}
     <br>
     <br>
     Expected mastery progression
@@ -39,13 +39,19 @@
     Daily wins per Day:  <input @change = "SaveLocal('DWperDay',DWperDay)" v-model.number="DWperDay">
     <br>
     <br>
-    Total Ddaily win XP: {{ this.DWperDay * 25 *  this.DaysLeft }}
+    Total Daily win XP: {{TotalDailyWinsExp =  this.DWperDay * 25 *  this.DaysLeft }}
     <br>
     <br>
     Daily quests left total:  <input @change = "SaveLocal('DQleft',DQleft)" v-model.number="DQleft">
     <br>
     <br>
+    Total daily quest experience: {{ TotalQuestExp = this.DQleft * 500 }}
+    <br>
+    <br>
     Weekly wins per week:  <input @change = "SaveLocal('WeeklyWinsPerWeek',WeeklyWinsPerWeek)" v-model.number="WeeklyWinsPerWeek">
+    <br>
+    <br>
+    Totaly weekly wins per week: {{ TotalWeeklyWinsExp = Math.floor(this.DaysLeft / 7) * parseInt(this.WeeklyWinsPerWeek) * 250 }}
   </div>
   <div class="col" ></div>
 </template>
@@ -82,7 +88,6 @@ export default {
       DWperDay: localStorage.getItem('DWperDay'),
       DQleft: localStorage.getItem('DQleft'),
       WeeklyWinsPerWeek: localStorage.getItem('WeeklyWinsPerWeek'),
-
     }
   },
   methods:{
