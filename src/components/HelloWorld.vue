@@ -30,7 +30,7 @@
     Incomplete weekly wins:  <input @change = "SaveLocal('IncompWW',IncompWW)" v-model.number="IncompWW">
     <br>
     <br>
-    Total Mastery XP: {{ TotalMasteryXP =  parseInt(this.CurrentLevel) * 1000 + parseInt(this.ExcessMasteryExp) + parseInt(this.IncompDW) * 25 + parseInt(this.IncompDQ) * 500 + parseInt(this.IncompWW) * 250}}
+    Total Mastery XP:  {{ TotalMasteryXP =  parseInt(this.CurrentLevel) * 1000 + parseInt(this.ExcessMasteryExp) + parseInt(this.IncompDW) * 25 + parseInt(this.IncompDQ) * 500 + parseInt(this.IncompWW) * 250}}
     <br>
     <br>
     Expected mastery progression
@@ -52,6 +52,10 @@
     <br>
     <br>
     Totaly weekly wins per week: {{ TotalWeeklyWinsExp = Math.floor(this.DaysLeft / 7) * parseInt(this.WeeklyWinsPerWeek) * 250 }}
+    <br>
+    <br>
+    <br>
+    <br>
   </div>
   <div class="col" ></div>
 </template>
